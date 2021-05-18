@@ -7,6 +7,8 @@
 #include <cstring>
 #include <random>
 
+#include "Random.hpp"
+
 namespace
 {
 constexpr float GRAVITY = 9.8f;
@@ -25,11 +27,10 @@ namespace CartPole
 {
 State Env::Reset()
 {
-    std::mt19937 engine(12345);
     std::uniform_real_distribution<float> dist(-0.05f, 0.05f);
 
     for (int i = 0; i < 4; ++i)
-        state_.Arr[i] = dist(engine);
+        state_.Arr[i] = dist(Random::Engine());
 
     done_ = false;
 
