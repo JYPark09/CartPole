@@ -20,7 +20,8 @@ void Renderer::Render(const CartPole::State& state)
 {
     glfwPollEvents();
 
-    const auto [x, d_x, theta, d_theta] = state.Desc;
+    const float x = state.Desc.x;
+    const float theta = state.Desc.theta;
 
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);

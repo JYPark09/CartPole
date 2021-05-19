@@ -39,7 +39,10 @@ State Env::Reset()
 
 auto Env::Step(Action action) -> std::tuple<State, Reward, bool>
 {
-    const auto [x, d_x, theta, d_theta] = state_.Desc;
+    const float x = state_.Desc.x;
+    const float d_x = state_.Desc.d_x;
+    const float theta = state_.Desc.theta;
+    const float d_theta = state_.Desc.d_theta;
     const float force = FORCE_MAG * (action == Action::RIGHT ? 1 : -1);
 
     const float sint = std::sin(theta);
@@ -69,7 +72,8 @@ auto Env::Step(Action action) -> std::tuple<State, Reward, bool>
 
 bool Env::CheckDone() const
 {
-    const auto [x, d_x, theta, d_theta] = state_.Desc;
+    const float x = state_.Desc.x;
+    const float theta = state_.Desc.theta;
 
     return (x < -X_THRESHOLD) || (x > X_THRESHOLD) ||
            (theta < -THETA_THRESHOLD) || (theta > THETA_THRESHOLD);
