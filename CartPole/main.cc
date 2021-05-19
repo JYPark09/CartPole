@@ -28,14 +28,25 @@ int main()
     agent.SetGamma(0.99f);
     agent.SetLearningRate(1e-3f);
 
-    for (int ep = 1; ; ++ep)
+    int ep;
+    for (ep = 1; ; ++ep)
     {
-        const auto result = ProcEpisode(agent, renderer, (ep % 10 == 0));
+        const auto result = ProcEpisode(agent, renderer, (ep % 50 == 0));
 
         cout << "Episode " << ep << " - total reward: " << result.reward << endl;
+        results.emplace_back(result.reward);
+
+        const int n = std::min(ep, 50);
+        const int startIdx = std::max(ep - n, 0);
+        const float meanReward =
+            std::accumulate(begin(results) + startIdx, end(results), 0.f) / n;
+        if (meanReward >= 450.f)
+            break;
     }
 
     renderer.Close();
+
+    cout << endl << "<training finished>" << endl << "total episodes: " << ep << endl;
 }
 
 EpisodeResult ProcEpisode(Agent& agent, Renderer& renderer, bool render)
