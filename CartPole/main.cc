@@ -5,6 +5,7 @@
 #include "CartPole.hpp"
 #include "CartPoleRenderer.hpp"
 
+using std::cin;
 using std::cout;
 using std::endl;
 
@@ -25,8 +26,17 @@ int main()
 
     std::deque<float> results;
 
-    agent.SetGamma(0.99f);
-    agent.SetLearningRate(1e-3f);
+    float gamma, lr;
+    cout << "Input Gamma: ";
+    cin >> gamma;
+    cin.clear();
+
+    cout << "Input Learning Rate: ";
+    cin >> lr;
+    cin.clear();
+
+    agent.SetGamma(gamma);
+    agent.SetLearningRate(lr);
 
     int ep;
     for (ep = 1; ; ++ep)
@@ -47,6 +57,7 @@ int main()
     renderer.Close();
 
     cout << endl << "<training finished>" << endl << "total episodes: " << ep << endl;
+    cout << "gamma: " << gamma << endl << "learning rate: " << lr << endl;
 }
 
 EpisodeResult ProcEpisode(Agent& agent, Renderer& renderer, bool render)
