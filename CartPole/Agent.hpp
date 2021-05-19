@@ -19,7 +19,16 @@ class Agent final
 
     void Train();
 
+    void SetGamma(float gamma);
+    float GetGamma() const;
+
+    void SetLearningRate(float lr);
+    float GetLearningRate() const;
+
  private:
+    // configurations
+    float GAMMA{ 0.99f };
+
     tiny_dnn::network<tiny_dnn::sequential> net_;
     tiny_dnn::adam opt_;
 

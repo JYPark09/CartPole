@@ -5,11 +5,6 @@
 
 #include "Random.hpp"
 
-namespace
-{
-constexpr float GAMMA = 0.99f;
-}
-
 Agent::Agent()
 {
     using namespace tiny_dnn;
@@ -67,8 +62,8 @@ void Agent::Train()
     }
 
     // normalize
-    const float mean = std::accumulate(begin(returns), end(returns), 0.f, [epLength](float a, float b) { return a + b / epLength; });
-    float stddev = 0;
+    const float mean = std::accumulate(begin(returns), end(returns), 0.f) / epLength;
+    float stddev = 1e-10f;
     for (auto ret : returns)
         stddev += ret * ret;
     stddev = std::sqrtf(stddev / epLength);
@@ -84,5 +79,25 @@ void Agent::Train()
         input[i] = states_[i];
         output[i] = ((actions_[i] == CartPole::Action::LEFT) ? tiny_dnn::vec_t{ returns[i], 0 } : tiny_dnn::vec_t{ 0, returns[i] });
     }
-    net_.train<mse, adam>(opt_, input, output, 1, 1);
+    net_.train<cross_entropy_multiclass, adam>(opt_, input, output, epLength, 1);
+}
+
+void Agent::SetGamma(float gamma)
+{
+    GAMMA = gamma;
+}
+
+float Agent::GetGamma() const
+{
+    return GAMMA;
+}
+
+void Agent::SetLearningRate(float lr)
+{
+    opt_.alpha = lr;
+}
+
+float Agent::GetLearningRate() const
+{
+    return opt_.alpha;
 }
