@@ -24,6 +24,9 @@
     <ClCompile Include="CartPoleRenderer.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Agent.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CartPole.hpp">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Random.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
